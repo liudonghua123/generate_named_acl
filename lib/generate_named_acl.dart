@@ -1,9 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:simple_logger/simple_logger.dart';
 
 ///
 /// a thin wrapper of https://ispip.clang.cn/
 ///
 class IpDatabase {
+  final logger = SimpleLogger();
+
   // isp name and corresponding url for data
   final _ipDatabase = {
     'all_cn': 'https://ispip.clang.cn/all_cn_cidr.txt',
@@ -27,10 +30,10 @@ class IpDatabase {
   /// get a list of cidr ip of [name] from https://ispip.clang.cn/.
   Future<List<String>> getCidrIp({String name = 'all_cn'}) async {
     var urlString = _ipDatabase[name];
-    print('starting get ip data [$name}] from $urlString}');
+    logger.info('starting get ip data [$name}] from $urlString}');
     var response = await http.get(Uri.parse(urlString));
     if (response.statusCode != 200) {
-      print(
+      logger.info(
           'http get $urlString} failed with statusCode ${response.statusCode}');
     }
     return response.body.trim().split('\n').map((e) => e.trim()).toList();

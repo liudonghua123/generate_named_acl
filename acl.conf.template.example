@@ -1,0 +1,44 @@
+acl DATACENTER_ACL {
+113.55.12.0/22;
+};
+
+acl VPN1_ACL {
+113.55.104.0/23;
+};
+
+acl VPN2_ACL {
+113.55.106.0/23;
+};
+
+acl INTRANET_ACL {
+113.54.0.0/15;
+202.202.0.0/15;
+222.18.0.0/15;
+10.0.0.0/8;
+172.16.0.0/12;
+192.168.0.0/16;
+};
+
+acl CERNET_ACL {
+{{# cernetAcls }}
+{{.}};
+{{/ cernetAcls }}
+};
+
+acl CHINAMOBILE_ACL {
+{{# chinamobileAcls }}
+{{.}};
+{{/ chinamobileAcls }}
+};
+
+acl UNICOM_ACL {
+{{# unicomAcls }}
+{{.}};
+{{/ unicomAcls }}
+};
+
+acl CHINANET_ACL {
+{{# chinanetAcls }}
+{{.}};
+{{/ chinanetAcls }}
+};

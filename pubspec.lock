@@ -155,6 +155,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  mustache_template:
+    dependency: "direct main"
+    description:
+      name: mustache_template
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   node_preamble:
     dependency: transitive
     description:
@@ -225,6 +232,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  simple_logger:
+    dependency: "direct main"
+    description:
+      name: simple_logger
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.8.0+1"
   source_map_stack_trace:
     dependency: transitive
     description:
