@@ -4,17 +4,45 @@ import 'package:logger/logger.dart';
 import 'package:mustache_template/mustache_template.dart';
 import 'package:args/args.dart';
 
-var logger = Logger(printer: SimplePrinter(printTime: true), filter: ProductionFilter());
+var logger =
+    Logger(printer: SimplePrinter(printTime: true), filter: ProductionFilter());
 void main(List<String> args) async {
   // parse args
   var parser = ArgParser();
-  parser.addOption('template', abbr: 't', defaultsTo: 'acl.conf.template');
-  parser.addOption('output', abbr: 'o', defaultsTo: 'acl.conf');
-  parser.addFlag('overwrite', defaultsTo: true);
+  parser.addOption(
+    'template',
+    abbr: 't',
+    defaultsTo: 'acl.conf.template',
+    help: 'The path of template file',
+  );
+  parser.addOption(
+    'output',
+    abbr: 'o',
+    defaultsTo: 'acl.conf',
+    help: 'The path of generated output file',
+  );
+  parser.addFlag(
+    'overwrite',
+    defaultsTo: true,
+    help: 'The overwrite flag when write output file',
+  );
+  parser.addFlag(
+    'help',
+    abbr: 'h',
+    negatable: false,
+    help: 'The usage/help of cli',
+  );
   var argResults = parser.parse(args);
   var templatePath = argResults['template'];
   var outputPath = argResults['output'];
   var overwrite = argResults['overwrite'];
+  var help = argResults['help'];
+
+  // show usage/help info
+  if (help) {
+    print(parser.usage);
+    exit(0);
+  }
 
   // check template
   if (!File(templatePath).existsSync()) {
