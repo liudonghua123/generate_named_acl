@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p build
           ${{ matrix.pub }} get
-          ${{ matrix.dart }} compile exe bin/${{ env.APP_NAME }}.dart -o build/${{ matrix.output-name }}
+          ${{ matrix.dart }} tool/grind.dart clean build
         shell: bash
 
       - uses: xresloader/upload-to-github-release@v1
