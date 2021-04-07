@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:generate_named_acl/generate_named_acl.dart';
+import 'package:logger/logger.dart';
 import 'package:mustache_template/mustache_template.dart';
-import 'package:simple_logger/simple_logger.dart';
 import 'package:args/args.dart';
 
-var logger = SimpleLogger();
+var logger = Logger(printer: SimplePrinter(printTime: true), filter: ProductionFilter());
 void main(List<String> args) async {
   // parse args
   var parser = ArgParser();
@@ -18,7 +18,7 @@ void main(List<String> args) async {
 
   // check template
   if (!File(templatePath).existsSync()) {
-    logger.severe('template $templatePath not found!');
+    logger.e('template $templatePath not found!');
     exit(-1);
   }
 
@@ -29,10 +29,10 @@ void main(List<String> args) async {
 
   // check overwrite and output file exists
   if (overwrite) {
-    logger.warning('overwrite is on!!!');
+    logger.w('overwrite is on!!!');
   }
   if (aclFile.existsSync() && !overwrite) {
-    logger.info(
+    logger.i(
         'aclFile $aclFile exists and overwrite mode is off, skip writing...');
     exit(0);
   }
@@ -51,8 +51,8 @@ void main(List<String> args) async {
   };
 
   // start writing outputs
-  logger.info('start write ${aclFile.path} file...');
+  logger.i('start write ${aclFile.path} file...');
   var output = template.renderString(data);
   await aclFile.writeAsString(output);
-  logger.info('write ${aclFile.path} file successfully!');
+  logger.i('write ${aclFile.path} file successfully!');
 }
