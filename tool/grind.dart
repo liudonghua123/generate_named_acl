@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:grinder/grinder.dart';
 
-main(args) => grind(args);
+Future main(args) => grind(args);
 
 @Task()
-test() => new TestRunner().testAsync();
+Future test() => TestRunner().testAsync();
 
 @DefaultTask()
 @Depends(test)
-build() {
+void build() {
   // create build directory if it doesn't exist.
   Directory('build').createSync();
   // run dart compile exe bin/app_launcher.dart -o build/app_launcher.exe
@@ -23,4 +23,4 @@ build() {
 }
 
 @Task()
-clean() => defaultClean();
+void clean() => defaultClean();

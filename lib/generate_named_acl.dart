@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 ///
 class IpDatabase {
   final logger = Logger(printer: SimplePrinter(printTime: true), filter: ProductionFilter());
-  IpDatabase() {}
+  IpDatabase();
   // isp name and corresponding url for data
   final _ipDatabase = {
     'all_cn': 'https://ispip.clang.cn/all_cn_cidr.txt',
