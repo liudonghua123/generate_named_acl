@@ -1,0 +1,52 @@
+name: Build on Push to release
+
+on:
+  push:
+    branches: 
+      - master
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    env:
+      APP_NAME: generate_named_acl
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        include:
+          - os: ubuntu-latest
+            output-name: ${GITHUB_REPOSITORY##*/}-linux
+            pub: pub
+            dart: dart
+          - os: macOS-latest
+            output-name: ${GITHUB_REPOSITORY##*/}-mac
+            pub: pub
+            dart: dart
+          - os: windows-latest
+            output-name: ${GITHUB_REPOSITORY##*/}-windows.exe
+            pub: pub.bat
+            dart: dart.exe
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup Dart VM
+        uses: vanesyan/setup-dart@v1
+
+      - name: Build
+        run: |
+          mkdir -p build
+          ${{ matrix.pub }} get
+          ${{ matrix.dart }} compile exe bin/${{ env.APP_NAME }}.dart -o build/${{ matrix.output-name }}
+        shell: bash
+
+      - uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: build/*
+          tags: true
+          draft: false
