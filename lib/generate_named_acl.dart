@@ -5,7 +5,8 @@ import 'package:logger/logger.dart';
 /// a thin wrapper of https://ispip.clang.cn/
 ///
 class IpDatabase {
-  final logger = Logger(printer: SimplePrinter(printTime: true), filter: ProductionFilter());
+  final logger = Logger(
+      printer: SimplePrinter(printTime: true), filter: ProductionFilter());
   IpDatabase();
   // isp name and corresponding url for data
   final _ipDatabase = {
@@ -33,8 +34,9 @@ class IpDatabase {
     logger.i('starting get ip data [$name}] from $urlString');
     var response = await http.get(Uri.parse(urlString));
     if (response.statusCode != 200) {
-      logger.i(
+      logger.e(
           'http get $urlString} failed with statusCode ${response.statusCode}');
+      return [];
     }
     return response.body.trim().split('\n').map((e) => e.trim()).toList();
   }
